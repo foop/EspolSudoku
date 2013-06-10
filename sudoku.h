@@ -14,20 +14,22 @@ class sudoku;
 
 class sudoku : public QMainWindow
 {
+    // I forgot what this actually does - magic
     Q_OBJECT
-    
+
 public:
+    // This impedes weird constructor usage
     explicit sudoku(QWidget *parent = 0);
     ~sudoku();
     
 private slots:
     void increaseNumber();
+    // void decreaseNumber(); Issue No3
 
 private:
     Ui::sudoku *ui;
     // we'll strore the values in a seperate array so that we can
     // easily pass it to the controller later on
-    //TODO really *bla?
     int value[DIM][DIM];
     QToolButton *buttons[DIM][DIM];
 };
