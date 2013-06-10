@@ -18,7 +18,7 @@ sudoku::sudoku(QWidget *parent) :
         }
      }
     for (int i = 0; i < DIM; i++) {
-        for (int j = 0; i < DIM; i++) {
+        for (int j = 0; j < DIM; j++) {
             ui->gridLayout->addWidget(buttons[i][j],i,j);
         }
      }
