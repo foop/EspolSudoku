@@ -28,8 +28,16 @@ void sudoku::increaseNumber() {
     QToolButton *clickedButton = qobject_cast<QToolButton *>(sender());
     int digitValue = clickedButton->text().toInt();
      //TODO complete
-     //change text of button
-     //change value in array
+     //change text of button *check*
+     //change value in array - how can I find out which cordinate the button had?
+     //                        how are the labeled internally
+     //                         * can I change the labels?
+     //                         * how can I access the label?
+     //send new state event to controller
+
+     // prefix magic
+     clickedButton->setText(QString::number(++digitValue % 10));
+
 }
 
 
