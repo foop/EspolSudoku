@@ -8,7 +8,7 @@ sudoku::sudoku(QWidget *parent) :
     ui->setupUi(this);
 
     for (int i = 0; i < DIM; i++) {
-        for (int j = 0; i < DIM; i++) {
+        for (int j = 0; j < DIM; j++) {
             QToolButton *button = new QToolButton();
             button->setText(QString::number(i));
             connect(button, SIGNAL(clicked()), this, SLOT(increaseNumber()));
@@ -31,6 +31,7 @@ void sudoku::increaseNumber() {
      //change text of button
      //change value in array
 }
+
 
 sudoku::~sudoku()
 {
