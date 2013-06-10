@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>sudoku</class>
+ <widget class="QMainWindow" name="sudoku">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>567</width>
+    <height>516</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>sudoku</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>531</width>
+      <height>431</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout"/>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>567</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuBla">
+    <property name="title">
+     <string>bla</string>
+    </property>
+    <widget class="QMenu" name="menuSub1">
+     <property name="title">
+      <string>sub1</string>
+     </property>
+     <addaction name="actionSubSub1"/>
+     <addaction name="actionSubSub2"/>
+    </widget>
+    <addaction name="menuSub1"/>
+    <addaction name="actionSub2"/>
+    <addaction name="actionSub3"/>
+   </widget>
+   <widget class="QMenu" name="menuFoo">
+    <property name="title">
+     <string>foo</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuBar_2">
+    <property name="title">
+     <string>bar</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuBaz">
+    <property name="title">
+     <string>baz</string>
+    </property>
+   </widget>
+   <addaction name="menuBla"/>
+   <addaction name="menuFoo"/>
+   <addaction name="menuBar_2"/>
+   <addaction name="menuBaz"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionSub2">
+   <property name="text">
+    <string>sub2</string>
+   </property>
+  </action>
+  <action name="actionSub3">
+   <property name="text">
+    <string>sub3</string>
+   </property>
+  </action>
+  <action name="actionSubSub1">
+   <property name="text">
+    <string>subSub1</string>
+   </property>
+  </action>
+  <action name="actionSubSub2">
+   <property name="text">
+    <string>subSub2</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
