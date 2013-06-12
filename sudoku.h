@@ -9,6 +9,7 @@
 #include <QLineEdit>
 
 
+
 namespace Ui {
 class sudoku;
 }
@@ -32,7 +33,7 @@ private:
     // we'll strore the values in a seperate array so that we can
     // easily pass it to the controller later on
     int value[DIM][DIM];
-    QLineEdit *buttons[DIM][DIM];
+    QLineEdit *qcasillas[DIM][DIM];
 };
 
 #endif // SUDOKU_H

@@ -9,23 +9,35 @@ sudoku::sudoku(QWidget *parent) :
     ui->setupUi(this);
 
     // create the buttons <- maybe we shouldn't use buttons what else can we use?
+    //cambiado a QLineEdit me parece mas apropiado
     for (int i = 0; i < DIM; i++) {
         for (int j = 0; j < DIM; j++) {
             QLineEdit *cas = new QLineEdit();
             cas->setText(QString::number(i));
-            connect(cas, SIGNAL(clicked()), this, SLOT(increaseNumber()));
+            qcasillas[i][j] = cas;
 
-            buttons[i][j] = cas;
-        // we have a seperate array, that can later easily be passed to the
-        // controller
+            qcasillas[i][j]->setStyleSheet("border: 1px solid black; font-size: 20px;");
+            qcasillas[i][j]->setMaxLength(1);
+//          qcasillas[i][j]->setCursorPosition(0); no entiendo q hace
+            qcasillas[i][j]->setFixedSize(50,50);
+
+            qcasillas[i][j]->setAlignment(Qt::AlignCenter);
+
+            qcasillas[i][j]->setValidator( new QIntValidator(1, 9, this) );
+
+
+         // we have a seperate array, that can later easily be passed to the
+        // controller2
             value[i][j] = i;
         }
+      //  qcasillas[0][0]->setStyleSheet("border-top: 2px solid red; font-size: 20px;");
+
      }
 
     // add our buttons to the layout
     for (int i = 0; i < DIM; i++) {
         for (int j = 0; j < DIM; j++) {
-            ui->gridLayout->addWidget(buttons[i][j],i,j);
+            ui->gridLayout->addWidget(qcasillas[i][j],i,j);
         }
      }
 }
