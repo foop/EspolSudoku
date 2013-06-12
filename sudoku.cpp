@@ -11,11 +11,11 @@ sudoku::sudoku(QWidget *parent) :
     // create the buttons <- maybe we shouldn't use buttons what else can we use?
     for (int i = 0; i < DIM; i++) {
         for (int j = 0; j < DIM; j++) {
-            QToolButton *button = new QToolButton();
-            button->setText(QString::number(i));
-            connect(button, SIGNAL(clicked()), this, SLOT(increaseNumber()));
+            QLineEdit *cas = new QLineEdit();
+            cas->setText(QString::number(i));
+            connect(cas, SIGNAL(clicked()), this, SLOT(increaseNumber()));
 
-            buttons[i][j] = button;
+            buttons[i][j] = cas;
         // we have a seperate array, that can later easily be passed to the
         // controller
             value[i][j] = i;

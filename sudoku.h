@@ -6,6 +6,7 @@
 
 #include <QMainWindow>
 #include <QToolButton>
+#include <QLineEdit>
 
 
 namespace Ui {
@@ -31,7 +32,7 @@ private:
     // we'll strore the values in a seperate array so that we can
     // easily pass it to the controller later on
     int value[DIM][DIM];
-    QToolButton *buttons[DIM][DIM];
+    QLineEdit *buttons[DIM][DIM];
 };
 
 #endif // SUDOKU_H
