@@ -18,7 +18,7 @@ sudoku::sudoku(QWidget *parent) :
 
             qcasillas[i][j]->setStyleSheet("border: 1px solid black; font-size: 20px;");
             qcasillas[i][j]->setMaxLength(1);
-//          qcasillas[i][j]->setCursorPosition(0); no entiendo q hace
+            qcasillas[i][j]->setCursorPosition(0);
             qcasillas[i][j]->setFixedSize(50,50);
 
             qcasillas[i][j]->setAlignment(Qt::AlignCenter);

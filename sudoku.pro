@@ -13,8 +13,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        sudoku.cpp
+        sudoku.cpp \
+    lib/libvalidate.cpp
 
-HEADERS  += sudoku.h
+HEADERS  += sudoku.h \
+    lib/libvalidate.h
 
 FORMS    += sudoku.ui

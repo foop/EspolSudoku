@@ -3,11 +3,11 @@
 
 #include <list>
 
-class libValidate
+class LibValidate
 {
 public:
-    libValidate();
-    std::list<std::list<int> > findDouble(int field[]);
+    LibValidate();
+    static std::list<std::list<int> > findDouble(int field[]);
 };
 
 #endif // LIBVALIDATE_H
