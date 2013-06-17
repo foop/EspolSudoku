@@ -1,16 +1,20 @@
 #define BOOST_TEST_MAIN
 
+//TODO this deserves an owhn header file
 #include <boost/test/unit_test.hpp>
+#include <vector>
 #include "../../lib/libvalidate.h"
 
 BOOST_AUTO_TEST_CASE( findDouble_noDoubles ) {
     int testArray[9] = {1,2,3,4,5,6,7,8,9};
-    BOOST_CHECK( LibValidate::findDouble(testArray).size() == 0 );
+    std::vector<int> testVector (testArray, testArray + sizeof(testArray) / sizeof(testArray[0]) );
+    BOOST_CHECK( LibValidate::findDouble(testVector).size() == 0 );
 }
 
 BOOST_AUTO_TEST_CASE( findDouble_oneDouble_01 ) {
     int testArray[9] = {1,1,3,4,5,6,7,8,9};
-    std::list<std::list<int> > result = LibValidate::findDouble(testArray);
+    std::vector<int> testVector (testArray, testArray + sizeof(testArray) / sizeof(testArray[0]) );
+    std::list<std::list<int> > result = LibValidate::findDouble(testVector);
     // we get a list of lists containing the indices of the fields that contain doubles
     // since we only got one such case the length must be 1
     BOOST_CHECK( result.size() == 1 );
@@ -26,7 +30,8 @@ BOOST_AUTO_TEST_CASE( findDouble_oneDouble_01 ) {
 
 BOOST_AUTO_TEST_CASE( findDouble_oneDouble_07 ) {
     int testArray[9] = {1,2,3,4,5,6,7,1,9};
-    std::list<std::list<int> > result = LibValidate::findDouble(testArray);
+    std::vector<int> testVector (testArray, testArray + sizeof(testArray) / sizeof(testArray[0]) );
+    std::list<std::list<int> > result = LibValidate::findDouble(testVector);
     // we get a list of lists containing the indices of the fields that contain doubles
     // since we only got one such case the length must be 1
     BOOST_CHECK( result.size() == 1 );
@@ -42,7 +47,8 @@ BOOST_AUTO_TEST_CASE( findDouble_oneDouble_07 ) {
 
 BOOST_AUTO_TEST_CASE( findDouble_oneTriple_017 ) {
     int testArray[9] = {1,1,3,4,5,6,7,1,9};
-    std::list<std::list<int> > result = LibValidate::findDouble(testArray);
+    std::vector<int> testVector (testArray, testArray + sizeof(testArray) / sizeof(testArray[0]) );
+    std::list<std::list<int> > result = LibValidate::findDouble(testVector);
     // we get a list of lists containing the indices of the fields that contain doubles
     // since we only got one such case the length must be 1
     BOOST_CHECK( result.size() == 1 );
@@ -62,7 +68,8 @@ BOOST_AUTO_TEST_CASE( findDouble_oneTriple_017 ) {
 
 BOOST_AUTO_TEST_CASE( findDouble_twoDoubles_0179 ) {
     int testArray[9] = {1,1,3,4,5,6,7,8,8};
-    std::list<std::list<int> > result = LibValidate::findDouble(testArray);
+    std::vector<int> testVector (testArray, testArray + sizeof(testArray) / sizeof(testArray[0]) );
+    std::list<std::list<int> > result = LibValidate::findDouble(testVector);
     BOOST_CHECK( result.size() == 2 );
     
     // last sublist 
@@ -87,7 +94,8 @@ BOOST_AUTO_TEST_CASE( findDouble_twoDoubles_0179 ) {
 
 BOOST_AUTO_TEST_CASE( findDouble_threeDoubles_013479 ) {
     int testArray[9] = {1,1,3,5,5,6,7,8,8};
-    std::list<std::list<int> > result = LibValidate::findDouble(testArray);
+    std::vector<int> testVector (testArray, testArray + sizeof(testArray) / sizeof(testArray[0]) );
+    std::list<std::list<int> > result = LibValidate::findDouble(testVector);
     BOOST_CHECK( result.size() == 3 );
     
     // last sublist 
@@ -120,7 +128,8 @@ BOOST_AUTO_TEST_CASE( findDouble_threeDoubles_013479 ) {
 
 BOOST_AUTO_TEST_CASE( findDouble_all_the_same ) {
     int testArray[9] = {1,1,1,1,1,1,1,1,1};
-    std::list<std::list<int> > result = LibValidate::findDouble(testArray);
+    std::vector<int> testVector (testArray, testArray + sizeof(testArray) / sizeof(testArray[0]) );
+    std::list<std::list<int> > result = LibValidate::findDouble(testVector);
     BOOST_CHECK( result.size() == 1 );
     
     // last sublist 
@@ -134,7 +143,8 @@ BOOST_AUTO_TEST_CASE( findDouble_all_the_same ) {
 
 BOOST_AUTO_TEST_CASE( findDouble_all_the_same_with_invalid ) {
     int testArray[9] = {-1,1,1,0,1,1,1,1,11};
-    std::list<std::list<int> > result = LibValidate::findDouble(testArray);
+    std::vector<int> testVector (testArray, testArray + sizeof(testArray) / sizeof(testArray[0]) );
+    std::list<std::list<int> > result = LibValidate::findDouble(testVector);
     BOOST_CHECK( result.size() == 1 );
     
     // last sublist 
@@ -148,7 +158,8 @@ BOOST_AUTO_TEST_CASE( findDouble_all_the_same_with_invalid ) {
 
 BOOST_AUTO_TEST_CASE( findDouble_oneDouble_twoTriples_with_invalid_01234678 ) {
     int testArray[9] = {1,1,5,5,5,-1,8,8,8};
-    std::list<std::list<int> > result = LibValidate::findDouble(testArray);
+    std::vector<int> testVector (testArray, testArray + sizeof(testArray) / sizeof(testArray[0]) );
+    std::list<std::list<int> > result = LibValidate::findDouble(testVector);
     BOOST_CHECK( result.size() == 3 );
     
     // last sublist 

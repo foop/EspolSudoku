@@ -15,14 +15,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
         sudoku.cpp \
     lib/libvalidate.cpp \
-    model/board.cpp \
-    model/field.cpp \
-    model/group.cpp
+    model/board.cpp
 
 HEADERS  += sudoku.h \
     lib/libvalidate.h \
-    model/board.h \
-    model/field.h \
-    model/group.h
+    model/board.h
 
 FORMS    += sudoku.ui
