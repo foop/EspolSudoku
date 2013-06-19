@@ -1,5 +1,8 @@
 #include "sudoku.h" // hint you can switch to the header and back by pressing "F4"
 #include "ui_sudoku.h"
+#include "QPushButton"
+#include "lib/inputdialog.h"
+
 
 sudoku::sudoku(QWidget *parent) :
     QMainWindow(parent),
@@ -8,38 +11,41 @@ sudoku::sudoku(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    tabla=new Tablero();
     // create the buttons <- maybe we shouldn't use buttons what else can we use?
     //cambiado a QLineEdit me parece mas apropiado
+
     for (int i = 0; i < DIM; i++) {
         for (int j = 0; j < DIM; j++) {
-            QLineEdit *cas = new QLineEdit();
-            cas->setText(QString::number(i));
-            qcasillas[i][j] = cas;
+//            QLineEdit *cas = new QLineEdit();
+//            cas->setText(QString::number(i));
+//            qcasillas[i][j] = cas;
+//            qcasillas[i][j]->setStyleSheet("border: 1px solid black; font-size: 20px;");
+//            qcasillas[i][j]->setMaxLength(1);
+//            qcasillas[i][j]->setCursorPosition(0);
+//            qcasillas[i][j]->setFixedSize(50,50);
+//            qcasillas[i][j]->setAlignment(Qt::AlignCenter);
+//            qcasillas[i][j]->setValidator( new QIntValidator(1, 9, this) );
 
-            qcasillas[i][j]->setStyleSheet("border: 1px solid black; font-size: 20px;");
-            qcasillas[i][j]->setMaxLength(1);
-            qcasillas[i][j]->setCursorPosition(0);
-            qcasillas[i][j]->setFixedSize(50,50);
-
-            qcasillas[i][j]->setAlignment(Qt::AlignCenter);
-
-            qcasillas[i][j]->setValidator( new QIntValidator(1, 9, this) );
-
+            this->numbers[i][j]=new QPushButton(QString::number(this->tabla->obtenerValor(i,j)),this);
+            this->numbers[i][j]->setFixedSize(45,45);
+            ui->gridLayout->addWidget(this->numbers[i][j],i,j,1,1,Qt::AlignCenter);
+            connect(this->numbers[i][j],SIGNAL(clicked()),this, SLOT(clickedNumber()));
 
          // we have a seperate array, that can later easily be passed to the
         // controller2
-            value[i][j] = i;
+
         }
       //  qcasillas[0][0]->setStyleSheet("border-top: 2px solid red; font-size: 20px;");
 
      }
 
     // add our buttons to the layout
-    for (int i = 0; i < DIM; i++) {
-        for (int j = 0; j < DIM; j++) {
-            ui->gridLayout->addWidget(qcasillas[i][j],i,j);
-        }
-     }
+//    for (int i = 0; i < DIM; i++) {
+//        for (int j = 0; j < DIM; j++) {
+//            ui->gridLayout->addWidget(qcasillas[i][j],i,j);
+//        }
+//     }
 }
 
 void sudoku::increaseNumber() {
@@ -58,6 +64,12 @@ void sudoku::increaseNumber() {
 
 }
 
+void sudoku::clickedNumber()
+{
+    inputDialog *dialogo = new inputDialog(this);
+    dialogo->exec();
+
+}
 // desctructor - doesn't c++ suck? SCNR
 sudoku::~sudoku()
 {

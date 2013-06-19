@@ -6,7 +6,8 @@
 
 #include <QMainWindow>
 #include <QToolButton>
-#include <QLineEdit>
+#include <QPushButton>
+#include <model/tablero.h>
 
 
 
@@ -27,13 +28,16 @@ public:
 private slots:
     void increaseNumber();
     // void decreaseNumber(); Issue No3
+    void clickedNumber();
 
 private:
     Ui::sudoku *ui;
+    QPushButton *numbers[9][9];
+    Tablero *tabla;
     // we'll strore the values in a seperate array so that we can
     // easily pass it to the controller later on
-    int value[DIM][DIM];
-    QLineEdit *qcasillas[DIM][DIM];
+    //int value[DIM][DIM];
+    //QLineEdit *qcasillas[DIM][DIM];
 };
 
 #endif // SUDOKU_H
