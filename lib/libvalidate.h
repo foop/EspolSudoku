@@ -4,8 +4,7 @@
 #include <list>
 #include <vector>
 
-class LibValidate
-{
+class LibValidate {
 public:
     LibValidate();
     static std::list<std::list<int> > findDouble(std::vector<int> field);

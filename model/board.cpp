@@ -1,77 +1,175 @@
 #include "board.h"
 
 using namespace boost::numeric::ublas;
+using namespace std;
 
-Board::Board(matrix<int> f) {
-    fields = f;
+
+Board::Board() {
+    matrix<int> fields = matrix<int>(9,9);
+    matrix<bool> doubles = matrix<bool>(9,9);
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            fields(i,j) = -1;
+            doubles(i,j) = false;
+        }
+    }
 }
 
-std::set<Coordinate> Board::checkStateOfXY(int x, int y) {
-    std::list<Coordinate> coordinates;
-    std::vector<std::list<Coordinate> > = rowTemp(10);
-    std::vector<std::list<Coordinate> > = colTemp(10);
-    std::vector<std::list<Coordinate> > = groupTemp(10);
-    //check row
-    for (int i = 0; i < 9; i++) {
-        if ( matrix(i,y) > 0 && matrix(i,y) < 10 ) {
-            Coordinate * c = new Coordinate(i, y);
-            rowTemp[matrix(i,y)].push_back(c);
+Board::Board(matrix<int> f, matrix<bool> d) {
+    fields = f;
+    doubles = d;
+}
+
+matrix<int> Board::getField() {
+    return fields;
+}
+
+matrix<bool> Board::setXY(int x, int y, int value) {
+    fields(x,y) = value;
+    return getAllDoubles();
+}
+
+
+void Board::resetDoubles() {
+    for ( int i = 0; i < 9; i++) {
+        for ( int j = 0; j < 9; j++) {
+            doubles(i,j) = false;
         }
     }
+}
 
-    //TODO save entries > 1
-    //check column
+matrix<bool> Board::getAllDoubles() {
+    resetDoubles();
     for (int i = 0; i < 9; i++) {
-        if ( matrix(x,i) > 0 && matrix(x,i) < 10 ) {
-            Coordinate * c = new Coordinate(x, i);
-            colTemp[matrix(x,i)].push_back(c);
+        getRowDoubles(i);
+        getColDoubles(i);
+    }
+    for (int i = 0; i < 9; i += 3) {
+        for (int j = 0; j < 9; j+= 3) {
+            getGroupDoubles(i, j);
         }
     }
+    return doubles;
+}
 
-    //check group
-    int startx = x / 3;
-    int starty = y / 3;
+bool Board::isBoardValid() {
+    return areRowsValid() && areColsValid() && areGroupsValid();
+}
 
-    for (int i = 0; i < 3 ; i++ ) {
-        for (int j = 0; j < 3 ; j++ ) {
-            int nextx = startx + j;
-            int nexty = starty + i;
-            if ( matrix(nextx, nexty) > 0 && matrix(nextx, nexty) < 10 ) {
-                Coordinate * c = new Coordiante(nextx, nexty);
-                groupTemp[matrix(x,i)].push_back(c);
+bool Board::areRowsValid() {
+    int nextVal;
+    std::vector<bool> alreadyTaken(10);
+    for (int j = 0; j < 9; j++) {
+        for (int k = 1; k < 10; k++) {
+           alreadyTaken[k] = false;
+        }
+        for (int i = 0; i < 9; i++) {
+            nextVal = fields(i,j);
+            if ( nextVal > 0 && nextVal < 10) {
+                if ( alreadyTaken[nextVal] ) {
+                    return false;
+                }
+                alreadyTaken[nextVal] = true;
             }
         }
     }
-
-    std::list<Coordinate> filteredRow   = compressMoreThanOnce(rowTemp);
-    std::list<Coordinate> filteredCol   = compressMoreThanOnce(colTemp);
-    std::list<Coordinate> filteredGroup = compressMoreThanOnce(groupTemp);
-
-    std::set<Coordiante> result = filterSuperflousCoordinates(filteredRow, filteredCol);
-    //TODO does this cause bugs?
-    std::set<Coordiante> result = filterSuperflousCoordinates(filteredRow, filteredGroup);
-    return result;
+    return true;
 }
 
-std::set<Coordinate> filterSuperflousCoordinates(std::list<Coordinate> firstList, std::list<Coordinate> secondList) {
-    std::set<Coordinate> result;
-    for ( std::list<Coordinate> c : firstList ) {
-        result.insert(c);
+bool Board::areColsValid() {
+    int nextVal;
+    std::vector<bool> alreadyTaken(10);
+    for (int j = 0; j < 9; j++) {
+        for (int k = 1; k < 10; k++) {
+            alreadyTaken[k] = false;
+        }
+        for (int i = 0; i < 9; i++) {
+            nextVal = fields(j,i);
+            if ( nextVal > 0 && nextVal < 10) {
+                if ( alreadyTaken[nextVal] ) {
+                    return false;
+                }
+                alreadyTaken[nextVal] = true;
+            }
+        }
     }
-    for ( std::list<Coordinate> c : secondList ) {
-        result.insert(c);
-    }
-    return result;
+    return true;
 }
 
-std::list<Coordinate> filterMoreThanOnce(std::vector<std::list<Coordinate> > checkedFields) {
-    std::list<Coordinate> result;
-    for (std::list<Coordinate> c : checkedFields) {
-        if ( c.size > 1 ) result.push_back(c);
+bool Board::areGroupsValid() {
+    for (int i = 0; i < 9; i += 3) {
+        for (int j = 0; j < 9; j += 3) {
+            if ( !isGroupValid(i,j) ) {
+                return false;
+            }
+        }
     }
-    return result;
+    return true;
 }
 
-std::list<std::list<int> >Board::checkState() {
+bool Board::isGroupValid(int x, int y) {
+    int nextVal;
+    std::vector<bool> alreadyTaken(10);
+    for (int k = 1; k < 10; k++) {
+        alreadyTaken[k] = false;
+    }
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            nextVal = fields(x + i, y + j);
+            if ( alreadyTaken[nextVal] ) return false;
+        }
+    }
+    return true;
+}
 
+void Board::getRowDoubles(int y) {
+    std::vector<std::list<Coordinate *> > rowTemp(10);
+    for (int i = 0; i < 9; i++) {
+        // reset doubles matrix
+        // safety check
+        if ( fields(i,y) > 0 && fields(i,y) < 10 ) {
+            Coordinate * c = new Coordinate(i, y);
+            rowTemp[fields(i,y)].push_back(c);
+        }
+    }
+    analyse(rowTemp);
+}
+
+void Board::getColDoubles(int x) {
+    std::vector<std::list<Coordinate *> > colTemp(10);
+    //check column
+    for (int i = 0; i < 9; i++) {
+        // reset doubles matrix
+        if ( fields(x,i) > 0 && fields(x,i) < 10 ) {
+            // safety check
+            Coordinate * c = new Coordinate(x, i);
+            colTemp[fields(x,i)].push_back(c);
+        }
+    }
+    analyse(colTemp);
+}
+
+void Board::getGroupDoubles(int x, int y) {
+    std::vector<std::list<Coordinate *> > groupTemp(10);
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            int nextx = x + i;
+            int nexty = y + j;
+            if ( fields(nextx,nexty) > 0 && fields(nextx, nexty) < 10 ) {
+                Coordinate * c = new Coordinate(nextx, nexty);
+                groupTemp[fields(nextx,nexty)].push_back(c);
+            }
+        }
+        analyse(groupTemp);
+    }
+}
+
+void Board::analyse(std::vector<std::list<Coordinate *> > toAnalyse ) {
+    for (int i = 1; i < 10; i++) {
+        if ( toAnalyse[i].size() > 1 ) {
+            for ( Coordinate * c : toAnalyse[i] ) {
+                doubles(c->x, c->y) = true;
+            }
+        }
+    }
 }
