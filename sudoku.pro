@@ -20,15 +20,18 @@ SOURCES += main.cpp\
     model/board.cpp \
     lib/libsudoku.cpp \
     controller.cpp \
-    choosedifficultydialogue.cpp
+    choosedifficultydialogue.cpp \
+    top10.cpp
 
 HEADERS  += sudoku.h \
     lib/libvalidate.h \
     model/board.h \
     lib/libsudoku.h \
     controller.h \
-    choosedifficultydialogue.h
+    choosedifficultydialogue.h \
+    top10.h
 
 FORMS    += sudoku.ui \
     frame.ui \
-    choosedifficultydialogue.ui
+    choosedifficultydialogue.ui \
+    top10.ui

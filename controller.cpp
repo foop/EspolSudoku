@@ -17,8 +17,6 @@ void Controller::checkIfGameEnds() {
     if ( board.isBoardValid() && allFilledUp ) {
         if ( !cheated ) {
             gameEnd();
-        } else {
-            emit gameEndCheatedDialogue();
         }
     }
 }
@@ -74,12 +72,14 @@ void Controller::newGame(int difficulty) {
     solvedState = solvedField;
     initialState = field;
     board = Board(field);
-    cheated = false;
+    //dirty - prevents highscoring to be triggered
+    cheated = true;
 
     emit disableFields(initialState);
     emit setGameState(field);
     emit markFields(board.getAllDoubles());
     emit startTimer();
+    cheated = false;
 }
 
 void Controller::getDoublesStateChanged(int state) {

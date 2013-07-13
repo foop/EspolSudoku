@@ -4,16 +4,18 @@
 //CONSTANTS
 #define DIM 9
 
+#include "top10.h"
 #include <QTimer>
 #include <QMainWindow>
 #include <QToolButton>
 #include <QLineEdit>
 #include <boost/bind.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
-#include "controller.h"
 #include "model/board.h"
 #include "choosedifficultydialogue.h"
 #include "lib/libsudoku.h"
+#include "controller.h"
+#include "top10.h"
 
 using namespace boost::numeric::ublas;
 
@@ -47,6 +49,7 @@ public slots:
     void startTimer();
     void stopTimer();
     void showTime();
+    void displayTop10(std::vector<Record> records);
 
 //inform interface
 signals:
@@ -54,6 +57,7 @@ signals:
      void loadState();
      void changeValue(int x, int y, int value);
      void lastMoveTime(int t);
+     void addTop10Entry(QString s);
 
 private:
     int time;
