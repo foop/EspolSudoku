@@ -42,7 +42,20 @@ void Sudoku::textChanged(const QString & text) {
         ui->gridLayout->getItemPosition(index, &row, &col, &row_span, &col_span);
         bool ok;
         int intValue = text.toInt(&ok, 10);
+        emit lastMoveTime(time);
         emit changeValue(row, col, intValue);
+    }
+}
+
+void Sudoku::disableFields(matrix<int> values) {
+    for (int i = 0; i < DIM; i++) {
+        for (int j = 0; j < DIM; j++ ) {
+            if ( values(i,j) > 0 && values(i,j) < 10) {
+                qcasillas[i][j]->setDisabled(1);
+            } else {
+                qcasillas[i][j]->setEnabled(1);
+            }
+        }
     }
 }
 
@@ -50,6 +63,7 @@ void Sudoku::setGameState(matrix<int> values) {
     for (int i = 0; i < DIM; i++) {
         for (int j = 0; j < DIM; j++) {
            if ( values(i,j) < 10 && values (i,j) > 0 ) qcasillas[i][j]->setText(QString::number(values(i,j)));
+           else qcasillas[i][j]->setText("");
         }
     }
 }
@@ -57,16 +71,40 @@ void Sudoku::setGameState(matrix<int> values) {
 void Sudoku::markFields(matrix<bool> toMark) {
     for (int i = 0; i < DIM; i++) {
         for (int j = 0; j < DIM; j++) {
-            if (toMark(i,j) ) qcasillas[i][j]->setStyleSheet("background: #ff00ff");
-            else        qcasillas[i][j]->setStyleSheet("background: #ffffff");
+            if ( ui->showDoubles->isChecked() && toMark(i,j) ) qcasillas[i][j]->setStyleSheet("background: #ff00ff");
+                else        qcasillas[i][j]->setStyleSheet("background: #ffffff");
         }
     }
+}
+
+void Sudoku::stopTimer() {
+    time = 0;
+    if ( timerExists ) {
+        timer->stop();
+    }
+}
+
+void Sudoku::startTimer() {
+    time = 0;
+    if ( !timerExists) {
+        timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(showTime()));
+        timerExists = true;
+    }
+    timer->start(1000);
+}
+
+void Sudoku::showTime() {
+    //QString timeString;
+    time++;
+    ui->lcdNumber->display(time);
 }
 
 void Sudoku::registerController(Controller* &newMcs) {
    if ( mcs == newMcs) return   ;
    if (mcsAssigned) {
     //TODO disconnect
+
        disconnect(this, SIGNAL(changeValue(int, int, int)), mcs, SLOT(changeValue(int, int, int)));
        mcsAssigned = false;
    }
@@ -74,14 +112,29 @@ void Sudoku::registerController(Controller* &newMcs) {
    if ( mcs ) {
        //to controller
        connect(this, SIGNAL(changeValue(int, int, int)), mcs, SLOT(changeValue(int, int, int)));
-       connect(ui->actionSave, SIGNAL(triggered()), mcs, SLOT(saveState()));
-       connect(ui->actionLoad, SIGNAL(triggered()), mcs, SLOT(loadState()));
+       connect(ui->actionSave,      SIGNAL(triggered()), mcs, SLOT(saveState()));
+       connect(ui->actionLoad,      SIGNAL(triggered()), mcs, SLOT(loadState()));
+       connect(ui->actionGet_Field, SIGNAL(triggered()), mcs, SLOT(getRandomFieldValue()));
+       connect(ui->actionSolve,     SIGNAL(triggered()), mcs, SLOT(getAllFieldsValues()));
+       connect(ui->resetGame,       SIGNAL(clicked()),   mcs, SLOT(resetGame()));
+       connect(ui->showDoubles,     SIGNAL(stateChanged(int)), mcs, SLOT(getDoublesStateChanged(int)));
+       connect(ui->newGame,         SIGNAL(clicked()),   this, SLOT(newGame()));
 
        //from controller
-       connect(mcs, SIGNAL(setGameState(matrix<int>)), this, SLOT(setGameState(matrix<int>)));
-       connect(mcs, SIGNAL(markFields(matrix<bool>)), this, SLOT(markFields(matrix<bool>)));
+       connect(mcs, SIGNAL(disableFields(matrix<int>)), this, SLOT(disableFields(matrix<int>)));
+       connect(mcs, SIGNAL(setGameState(matrix<int>)),  this, SLOT(setGameState(matrix<int>)));
+       connect(mcs, SIGNAL(markFields(matrix<bool>)),   this, SLOT(markFields(matrix<bool>)));
+       connect(mcs, SIGNAL(startTimer()),               this, SLOT(startTimer()));
+       connect(mcs, SIGNAL(stopTimer()),                this, SLOT(stopTimer()));
        mcsAssigned = true;
    }
+}
+
+void Sudoku::newGame() {
+    ChooseDifficultyDialogue d(this);
+    d.registerController(mcs);
+    d.exec();
+    d.raise();
 }
 
 //todo can we still use this?

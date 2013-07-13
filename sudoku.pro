@@ -19,13 +19,16 @@ SOURCES += main.cpp\
     lib/libvalidate.cpp \
     model/board.cpp \
     lib/libsudoku.cpp \
-    controller.cpp
+    controller.cpp \
+    choosedifficultydialogue.cpp
 
 HEADERS  += sudoku.h \
     lib/libvalidate.h \
     model/board.h \
     lib/libsudoku.h \
-    controller.h
+    controller.h \
+    choosedifficultydialogue.h
 
 FORMS    += sudoku.ui \
-    frame.ui
+    frame.ui \
+    choosedifficultydialogue.ui

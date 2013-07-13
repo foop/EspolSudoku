@@ -15,6 +15,11 @@ Board::Board() {
     }
 }
 
+Board::Board(matrix<int> f) {
+    fields = f;
+    doubles = matrix<bool>(9,9);
+}
+
 Board::Board(matrix<int> f, matrix<bool> d) {
     fields = f;
     doubles = d;
@@ -116,7 +121,9 @@ bool Board::isGroupValid(int x, int y) {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             nextVal = fields(x + i, y + j);
-            if ( alreadyTaken[nextVal] ) return false;
+            if ( nextVal > 0 && nextVal < 10) {
+                if ( alreadyTaken[nextVal] ) return false;
+            }
         }
     }
     return true;

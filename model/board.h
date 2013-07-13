@@ -28,6 +28,7 @@ class Board {
 public:
     Board();
     Board(matrix<int> f, matrix<bool> d);
+    Board(matrix <int> f);
     matrix<int> getField();
     matrix<bool> setXY(int x, int y, int value);
     bool isBoardValid();

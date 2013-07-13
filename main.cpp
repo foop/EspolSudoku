@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
     Controller *c = & Controller::getInstance();
     Sudoku w;
     w.registerController(c);
+    c->newGame(EASY);
     w.show();
     
     return a.exec();
