@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}Introduction}{1}
+\contentsline {section}{\numberline {2}Gameplay}{2}
+\contentsline {subsection}{\numberline {2.1}Main Window}{2}
+\contentsline {subsection}{\numberline {2.2}New game}{3}
+\contentsline {subsection}{\numberline {2.3}Resetting the game}{4}
+\contentsline {subsection}{\numberline {2.4}Loading and saving}{4}
+\contentsline {subsection}{\numberline {2.5}Cheating}{4}
+\contentsline {subsection}{\numberline {2.6}Show Doubles}{4}
+\contentsline {subsection}{\numberline {2.7}Highscore}{5}

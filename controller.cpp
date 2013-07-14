@@ -11,7 +11,7 @@ void Controller::checkIfGameEnds() {
     bool allFilledUp = true;
     for ( int i = 0; i < 9 && allFilledUp; i++) {
         for ( int j = 0; j < 9 && allFilledUp; j++) {
-            if ( field(i,j) < 0 || field(i,j) > 9 ) allFilledUp = false;
+            if ( field(i,j) < 1 || field(i,j) > 9 ) allFilledUp = false;
         }
     }
     if ( board.isBoardValid() && allFilledUp ) {
@@ -98,7 +98,7 @@ void Controller::getRandomFieldValue() {
         for (int i = 0; i < 9 && n > -1; i++) {
             for (int j = 0; j < 9 && n > -1; j++) {
                 nTimesWithoutFindingEmpty++;
-                if ( field(i,j) < 0 || field(i,j) > 9 ) {
+                if ( field(i,j) < 1 || field(i,j) > 9 ) {
                     if ( n == 0 ) {
                         getFieldValue(i,j);
                         return;

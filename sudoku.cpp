@@ -38,7 +38,7 @@ void Sudoku::displayTop10(std::vector<Record> records) {
     Top10 top10(this);
     int noOfRecords = records[0].seconds;
     connect(this, SIGNAL(addTop10Entry(QString)), &top10, SLOT(addEntry(QString)));
-    for (int i = 1; i < noOfRecords; i++) {
+    for (int i = 1; i <= noOfRecords; i++) {
        Record r = records[i];
        QString recordString = QString("%1/%2/%3/%4").arg(QString::number(i), QString::fromStdString(r.username),
                               QString::number(r.difficulty), QString::number(r.seconds));
